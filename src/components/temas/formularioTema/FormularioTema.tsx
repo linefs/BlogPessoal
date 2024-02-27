@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import Tema from '../../../models/Tema';
 import { atualizar, buscar, cadastrar } from '../../../services/Service';
+import { toastAlerta } from '../../../util/toastAlerta';
 
 function FormularioTema() {
   const [tema, setTema] = useState<Tema>({} as Tema);
@@ -48,15 +49,15 @@ function FormularioTema() {
           }
         })
 
-        alert('Tema atualizado com sucesso')
+        toastAlerta('Tema atualizado com sucesso', 'sucesso')
         retornar()
 
       } catch (error: any) {
         if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+          toastAlerta('O token expirou, favor logar novamente', 'info')
           handleLogout()
         } else {
-          alert('Erro ao atualizar o Tema')
+          toastAlerta('Erro ao atualizar o Tema', 'erro')
         }
 
       }
@@ -69,14 +70,14 @@ function FormularioTema() {
           }
         })
 
-        alert('Tema cadastrado com sucesso')
+        toastAlerta('Tema cadastrado com sucesso', 'sucesso')
 
       } catch (error: any) {
         if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+          toastAlerta('O token expirou, favor logar novamente', 'info')
           handleLogout()
         } else {
-          alert('Erro ao cadastrado o Tema')
+          toastAlerta('Erro ao cadastrado o Tema', 'erro')
         }
       }
     }
@@ -90,7 +91,7 @@ function FormularioTema() {
 
   useEffect(() => {
     if (token === '') {
-      alert('Você precisa estar logado');
+      toastAlerta('Você precisa estar logado', 'info');
       navigate('/login');
     }
   }, [token]);
@@ -114,7 +115,7 @@ function FormularioTema() {
           />
         </div>
         <button
-          className="rounded text-slate-100 bg-indigo-400 hover:bg-indigo-800 w-1/2 py-2 mx-auto block"
+          className="rounded text-slate-100 bg-purple-600 hover:bg-purple-800 w-1/2 py-2 mx-auto block"
           type="submit"
         >
           {id === undefined ? 'Cadastrar' : 'Editar'}
